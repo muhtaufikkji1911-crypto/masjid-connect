@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+@source "../**/*.blade.php";
+@source "../**/*.js";
+@source "../**/*.vue";
+
+@theme {
+  --color-masjid-green: #063f2b;
+  --color-masjid-gold: #f59e0b;
+}
