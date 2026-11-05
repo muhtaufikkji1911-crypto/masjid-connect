@@ -198,9 +198,15 @@
                         <td class="px-6 py-4 text-center">
                             <span class="bg-green-100 text-[#10b981] text-[10px] font-bold px-2.5 py-1 rounded">Berhasil</span>
                         </td>
-                        <td class="px-6 py-4 text-center space-x-2">
-                            <button class="bg-gray-100 p-1.5 rounded text-gray-400 hover:text-gray-600 hover:bg-gray-200 transition"><i class="fa-regular fa-image text-xs"></i></button>
-                            <button class="bg-gray-100 p-1.5 rounded text-gray-400 hover:text-blue-600 hover:bg-blue-50 transition"><i class="fa-regular fa-pen-to-square text-xs"></i></button>
+                        <td class="px-6 py-4 text-center">
+                            <div class="flex items-center justify-center space-x-2">
+                                <button class="w-8 h-8 flex items-center justify-center rounded bg-gray-50 border border-gray-100 text-gray-400 hover:bg-gray-200 hover:text-gray-700 transition-colors shadow-sm" title="Lihat Bukti">
+                                    <i class="fa-regular fa-image text-sm"></i>
+                                </button>
+                                <button class="w-8 h-8 flex items-center justify-center rounded bg-gray-50 border border-gray-100 text-gray-400 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-100 transition-colors shadow-sm" title="Edit Data">
+                                    <i class="fa-regular fa-pen-to-square text-sm"></i>
+                                </button>
+                            </div>
                         </td>
                     </tr>
 
@@ -217,10 +223,19 @@
                         <td class="px-6 py-4 text-center">
                             <span class="bg-green-100 text-[#10b981] text-[10px] font-bold px-2.5 py-1 rounded">Berhasil</span>
                         </td>
-                        <td class="px-6 py-4 text-center space-x-2">
-                            <button class="bg-gray-100 p-1.5 rounded text-gray-400 hover:text-gray-600 hover:bg-gray-200 transition"><i class="fa-regular fa-image text-xs"></i></button>
-                            <button class="bg-gray-100 p-1.5 rounded text-gray-400 hover:text-blue-600 hover:bg-blue-50 transition"><i class="fa-regular fa-pen-to-square text-xs"></i></button>
-                        </td>
+                        <td class="py-4 text-center">
+                        <div class="flex items-center justify-center space-x-2">
+                            <!-- Tombol Lihat Bukti -->
+                            <button class="w-8 h-8 flex items-center justify-center rounded bg-gray-50 border border-gray-100 text-gray-400 hover:bg-gray-200 hover:text-gray-700 transition-colors shadow-sm" title="Lihat Bukti">
+                                <i class="fa-regular fa-image text-sm"></i>
+                            </button>
+                            
+                            <!-- Tombol Edit -->
+                            <button class="w-8 h-8 flex items-center justify-center rounded bg-gray-50 border border-gray-100 text-gray-400 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-100 transition-colors shadow-sm" title="Edit Data">
+                                <i class="fa-regular fa-pen-to-square text-sm"></i>
+                            </button>
+                        </div>
+                    </td>
                     </tr>
 
                     <!-- Baris 3 -->
@@ -236,9 +251,15 @@
                         <td class="px-6 py-4 text-center">
                             <span class="bg-green-100 text-[#10b981] text-[10px] font-bold px-2.5 py-1 rounded">Berhasil</span>
                         </td>
-                        <td class="px-6 py-4 text-center space-x-2">
-                            <button class="bg-gray-100 p-1.5 rounded text-gray-400 hover:text-gray-600 hover:bg-gray-200 transition"><i class="fa-regular fa-image text-xs"></i></button>
-                            <button class="bg-gray-100 p-1.5 rounded text-gray-400 hover:text-blue-600 hover:bg-blue-50 transition"><i class="fa-regular fa-pen-to-square text-xs"></i></button>
+                        <td class="px-6 py-4 text-center">
+                            <div class="flex items-center justify-center space-x-2">
+                                <button class="w-8 h-8 flex items-center justify-center rounded bg-gray-50 border border-gray-100 text-gray-400 hover:bg-gray-200 hover:text-gray-700 transition-colors shadow-sm" title="Lihat Bukti">
+                                    <i class="fa-regular fa-image text-sm"></i>
+                                </button>
+                                <button class="w-8 h-8 flex items-center justify-center rounded bg-gray-50 border border-gray-100 text-gray-400 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-100 transition-colors shadow-sm" title="Edit Data">
+                                    <i class="fa-regular fa-pen-to-square text-sm"></i>
+                                </button>
+                            </div>
                         </td>
                     </tr>
 
@@ -487,6 +508,266 @@
         </div>
     </div>
 
+    <!-- ========================================== -->
+    <!-- 1. POP-UP MODAL LIHAT BUKTI DONASI -->
+    <!-- ========================================== -->
+    <div id="buktiModal" class="fixed inset-0 z-[60] flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+        <!-- Latar Belakang Gelap -->
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeBuktiModal()"></div>
+        
+        <!-- Kotak Konten -->
+        <div class="bg-white rounded-2xl w-full max-w-[400px] p-5 shadow-2xl relative z-10 flex flex-col mx-4 transform scale-95 transition-transform duration-300" id="buktiModalBox">
+            <div class="flex justify-between items-center mb-4 border-b border-gray-100 pb-3">
+                <div>
+                    <h3 class="font-bold text-gray-900 text-base">Bukti Transaksi</h3>
+                    <p class="text-[10px] text-gray-400 mt-0.5 uppercase tracking-wider">#MC29402 • 01 Okt 2026</p>
+                </div>
+                <button onclick="closeBuktiModal()" class="text-gray-400 hover:text-gray-700 bg-gray-50 hover:bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center transition">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+            </div>
+            
+            <!-- Area Gambar Bukti -->
+            <div class="w-full bg-gray-50 rounded-xl overflow-hidden aspect-[3/4] border border-gray-200 flex items-center justify-center group relative">
+                <!-- Ini hanya gambar contoh (dummy), nantinya diganti URL dari database -->
+                <img src="https://images.unsplash.com/photo-1621980838965-031ed42aeb04?q=80&w=400&auto=format&fit=crop" alt="Bukti Transfer" class="w-full h-full object-cover">
+                
+                <!-- Tombol Download Gambar (Opsional) -->
+                <a href="#" class="absolute bottom-4 right-4 bg-white/90 backdrop-blur text-gray-800 p-2.5 rounded-lg shadow-md hover:bg-[#063f2b] hover:text-white transition opacity-0 group-hover:opacity-100">
+                    <i class="fa-solid fa-download text-sm"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 2. POP-UP MODAL EDIT DATA DONASI -->
+    <!-- ========================================== -->
+    <div id="editDonasiModal" class="fixed inset-0 z-[60] flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+        <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" onclick="closeEditDonasiModal()"></div>
+        
+        <div class="bg-white rounded-2xl w-full max-w-[500px] shadow-2xl relative z-10 flex flex-col max-h-[90vh] mx-4 transform scale-95 transition-transform duration-300" id="editDonasiModalBox">
+            
+            <!-- Header Modal -->
+            <div class="px-6 py-5 flex justify-between items-start border-b border-gray-100 bg-blue-50/50 rounded-t-2xl">
+                <div>
+                    <h2 class="text-lg font-bold text-gray-900 tracking-tight">Edit Data Donasi</h2>
+                    <p class="text-[11px] text-gray-500 mt-1">Perbarui informasi donatur dan status transaksi.</p>
+                </div>
+                <button onclick="closeEditDonasiModal()" class="text-gray-400 hover:text-gray-600 hover:bg-gray-200 w-8 h-8 rounded-full flex items-center justify-center transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <!-- Body Form Edit -->
+            <div class="p-6 overflow-y-auto space-y-4" style="scrollbar-width: thin;">
+                
+                <!-- Input Nama Donatur -->
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1.5">Nama Donatur</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                            <i class="fa-regular fa-user text-gray-400 text-xs"></i>
+                        </div>
+                        <!-- Ditambahkan id="edit-donatur-nama" -->
+                        <input type="text" id="edit-donatur-nama" class="w-full bg-gray-50 border border-gray-200 rounded-xl pl-9 pr-4 py-2.5 text-[13px] text-gray-800 font-medium focus:outline-none focus:border-[#063f2b] focus:bg-white transition">
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <!-- Input Nominal -->
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1.5">Jumlah (Rp)</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-[12px] font-bold text-[#10b981]">Rp</span>
+                            <!-- Ditambahkan id="edit-donatur-jumlah" -->
+                            <input type="number" id="edit-donatur-jumlah" class="w-full bg-gray-50 border border-gray-200 rounded-xl pl-9 pr-4 py-2.5 text-[13px] text-gray-800 font-bold focus:outline-none focus:border-[#063f2b] focus:bg-white transition">
+                        </div>
+                    </div>
+                    
+                    <!-- Dropdown Status -->
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1.5">Status</label>
+                        <div class="relative">
+                            <!-- Ditambahkan id="edit-donatur-status" -->
+                            <select id="edit-donatur-status" class="w-full appearance-none bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-[13px] text-gray-800 font-semibold focus:outline-none focus:border-[#063f2b] focus:bg-white transition cursor-pointer">
+                                <option value="berhasil">✅ Berhasil</option>
+                                <option value="pending">⏳ Pending</option>
+                                <option value="gagal">❌ Gagal</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-400">
+                                <i class="fa-solid fa-chevron-down text-xs"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Input Program Tujuan -->
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">Program Tujuan <span class="text-red-500">*</span></label>
+                    <!-- Ditambahkan id="edit-donatur-program" -->
+                    <input type="text" id="edit-donatur-program" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2.5 text-xs text-gray-800 focus:border-[#063f2b] focus:bg-white outline-none transition font-semibold">
+                </div>
+            </div>
+            
+            <!-- Footer Form (Tombol Simpan) -->
+            <div class="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-between items-center rounded-b-2xl">
+                <button onclick="closeEditDonasiModal()" class="text-[13px] font-bold text-gray-500 hover:text-gray-900 transition px-3 py-2">Batal</button>
+                
+                <!-- Ditambahkan id="btn-simpan-edit-donasi" dan dihapus onclick bawaannya -->
+                <button id="btn-simpan-edit-donasi" class="bg-[#063f2b] hover:bg-[#042e1f] text-white px-5 py-2.5 rounded-xl text-[13px] font-bold transition shadow-sm flex items-center space-x-2">
+                    <i class="fa-solid fa-check text-xs"></i>
+                    <span>Simpan Perubahan</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+        <!-- ========================================== -->
+        <!-- SCRIPT UNTUK MEMBUKA/MENUTUP MODAL & FUNGSI EDIT -->
+        <!-- ========================================== -->
+        <script>
+            // FUNGSI MODAL BUKTI
+            function openBuktiModal() {
+                const modal = document.getElementById('buktiModal');
+                const box = document.getElementById('buktiModalBox');
+                if(modal && box) {
+                    modal.classList.remove('hidden');
+                    setTimeout(() => { modal.classList.remove('opacity-0'); box.classList.remove('scale-95'); box.classList.add('scale-100'); }, 10);
+                }
+            }
+            function closeBuktiModal() {
+                const modal = document.getElementById('buktiModal');
+                const box = document.getElementById('buktiModalBox');
+                if(modal && box) {
+                    modal.classList.add('opacity-0'); box.classList.remove('scale-100'); box.classList.add('scale-95');
+                    setTimeout(() => { modal.classList.add('hidden'); }, 300);
+                }
+            }
+
+            // FUNGSI MODAL EDIT DONASI
+            function openEditDonasiModal() {
+                const modal = document.getElementById('editDonasiModal');
+                const box = document.getElementById('editDonasiModalBox');
+                if(modal && box) {
+                    modal.classList.remove('hidden');
+                    setTimeout(() => { modal.classList.remove('opacity-0'); box.classList.remove('scale-95'); box.classList.add('scale-100'); }, 10);
+                }
+            }
+            function closeEditDonasiModal() {
+                const modal = document.getElementById('editDonasiModal');
+                const box = document.getElementById('editDonasiModalBox');
+                if(modal && box) {
+                    modal.classList.add('opacity-0'); box.classList.remove('scale-100'); box.classList.add('scale-95');
+                    setTimeout(() => { modal.classList.add('hidden'); }, 300);
+                }
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+                let currentRow = null; 
+
+                // 1. Klik Tombol Bukti (Ikon Gambar) -> TIDAK ADA NOTIFIKASI
+                const btnBukti = document.querySelectorAll('.fa-image');
+                btnBukti.forEach(btn => {
+                    const parentBtn = btn.closest('button') || btn.closest('a');
+                    if (parentBtn) {
+                        parentBtn.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            e.stopPropagation(); // Mencegah trigger notifikasi dari elemen lain
+                            openBuktiModal();
+                        });
+                    }
+                });
+
+                // 2. Klik Tombol Edit (Ikon Pensil) -> TIDAK ADA NOTIFIKASI
+                const btnEdits = document.querySelectorAll('.fa-pen-to-square');
+                btnEdits.forEach(btn => {
+                    const parentBtn = btn.closest('button') || btn.closest('a');
+                    if (parentBtn) {
+                        parentBtn.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            e.stopPropagation(); // Mencegah trigger notifikasi dari elemen lain
+                            
+                            currentRow = this.closest('tr');
+                            if (currentRow) {
+                                const namaSaatIni = currentRow.children[1].innerText.trim();
+                                const programSaatIni = currentRow.children[2].innerText.trim();
+                                const jumlahTeks = currentRow.children[4].innerText.trim(); 
+                                const statusTeks = currentRow.children[5].innerText.trim().toLowerCase();
+
+                                const jumlahAngka = jumlahTeks.replace(/[^0-9]/g, '');
+
+                                document.getElementById('edit-donatur-nama').value = namaSaatIni;
+                                document.getElementById('edit-donatur-program').value = programSaatIni;
+                                document.getElementById('edit-donatur-jumlah').value = jumlahAngka;
+                                
+                                const statusSelect = document.getElementById('edit-donatur-status');
+                                if (statusTeks.includes('berhasil')) statusSelect.value = 'berhasil';
+                                else if (statusTeks.includes('pending')) statusSelect.value = 'pending';
+                                else if (statusTeks.includes('gagal')) statusSelect.value = 'gagal';
+                            }
+                            openEditDonasiModal();
+                        });
+                    }
+                });
+
+                // 3. Klik Tombol SIMPAN PERUBAHAN -> NOTIFIKASI MUNCUL DI SINI
+                const btnSimpan = document.getElementById('btn-simpan-edit-donasi');
+                if (btnSimpan) {
+                    btnSimpan.addEventListener('click', function() {
+                        if (currentRow) {
+                            const namaBaru = document.getElementById('edit-donatur-nama').value;
+                            const programBaru = document.getElementById('edit-donatur-program').value;
+                            const jumlahBaru = document.getElementById('edit-donatur-jumlah').value;
+                            const statusBaru = document.getElementById('edit-donatur-status').value;
+
+                            const formatRupiah = "Rp " + parseInt(jumlahBaru || 0).toLocaleString('id-ID');
+
+                            currentRow.children[1].innerText = namaBaru;      
+                            currentRow.children[2].innerText = programBaru;   
+                            currentRow.children[4].innerHTML = `<span class="text-[#10b981] font-bold">${formatRupiah}</span>`;
+
+                            let htmlStatus = '';
+                            if (statusBaru === 'berhasil') {
+                                htmlStatus = `<span class="bg-green-100 text-green-700 px-3 py-1 rounded-md text-[11px] font-bold">Berhasil</span>`;
+                            } else if (statusBaru === 'pending') {
+                                htmlStatus = `<span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-md text-[11px] font-bold">Pending</span>`;
+                            } else if (statusBaru === 'gagal') {
+                                htmlStatus = `<span class="bg-red-100 text-red-700 px-3 py-1 rounded-md text-[11px] font-bold">Gagal</span>`;
+                            }
+                            currentRow.children[5].innerHTML = htmlStatus;
+
+                            closeEditDonasiModal();
+
+                            // === PANGGIL POP-UP BERHASIL ===
+                            // Jika dashboard Anda memiliki fungsi showToast bawaan:
+                            if (typeof showToast === "function") {
+                                showToast('Tindakan Anda berhasil disimpan.');
+                            }
+                        }
+                    });
+                }
+
+                // 4. Interaksi Angka Halaman Bawah (Pagination)
+                const paginationContainers = document.querySelectorAll('.flex.items-center.space-x-1, .flex.items-center.space-x-2');
+                paginationContainers.forEach(container => {
+                    const paginationLinks = container.querySelectorAll('button:not(:first-child):not(:last-child)'); 
+                    paginationLinks.forEach(link => {
+                        link.addEventListener('click', function(e) {
+                            e.preventDefault(); 
+                            paginationLinks.forEach(l => {
+                                l.classList.remove('bg-[#063f2b]', 'text-white');
+                                l.classList.add('border-gray-200', 'text-gray-600', 'hover:bg-gray-50', 'border');
+                            });
+                            this.classList.remove('border-gray-200', 'text-gray-600', 'hover:bg-gray-50', 'border');
+                            this.classList.add('bg-[#063f2b]', 'text-white');
+                        });
+                    });
+                });
+
+            });
+        </script>
+
     <!-- Script Kontrol Semua Modal -->
     <script>
         // Modal Program
@@ -548,5 +829,75 @@
             box.classList.add('scale-95');
             setTimeout(() => { modal.classList.add('hidden'); }, 300);
         }
+        
     </script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        // 1. Fungsi Tombol Lihat Bukti (Ikon Gambar)
+        const btnBukti = document.querySelectorAll('.fa-image');
+        btnBukti.forEach(btn => {
+            const parentBtn = btn.closest('button') || btn.closest('a');
+            if (parentBtn) {
+                parentBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (typeof showToast === "function") {
+                        showToast('Menampilkan pop-up foto bukti donasi...');
+                    } else {
+                        alert('Menampilkan foto bukti donasi...');
+                    }
+                    // Tambahkan logika untuk membuka modal gambar bukti di sini
+                });
+            }
+        });
+
+        // 2. Fungsi Tombol Edit (Ikon Pensil)
+        const btnEdits = document.querySelectorAll('.fa-pen-to-square');
+        btnEdits.forEach(btn => {
+            const parentBtn = btn.closest('button') || btn.closest('a');
+            if (parentBtn) {
+                parentBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (typeof showToast === "function") {
+                        showToast('Membuka form edit data donasi...');
+                    } else {
+                        alert('Membuka form edit data donasi...');
+                    }
+                    // Tambahkan logika untuk membuka modal edit di sini
+                });
+            }
+        });
+
+        // 3. Fungsi Interaksi Pagination (Angka Halaman)
+        // Mencari kontainer pagination (berada di bagian bawah tabel)
+        const paginationContainers = document.querySelectorAll('.flex.items-center.space-x-1, .flex.items-center.space-x-2');
+        
+        paginationContainers.forEach(container => {
+            // Ambil semua tombol angka (kecuali tombol next/prev)
+            const paginationLinks = container.querySelectorAll('button:not(:first-child):not(:last-child)'); 
+            
+            paginationLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault(); 
+                    
+                    // Reset warna semua tombol angka ke abu-abu
+                    paginationLinks.forEach(l => {
+                        l.classList.remove('bg-[#063f2b]', 'text-white');
+                        l.classList.add('border-gray-200', 'text-gray-600', 'hover:bg-gray-50', 'border');
+                    });
+                    
+                    // Beri warna hijau ke tombol yang sedang ditekan
+                    this.classList.remove('border-gray-200', 'text-gray-600', 'hover:bg-gray-50', 'border');
+                    this.classList.add('bg-[#063f2b]', 'text-white');
+                    
+                    const pageNumber = this.innerText;
+                    if (typeof showToast === "function" && pageNumber.trim() !== '' && !isNaN(pageNumber)) {
+                        showToast(`Memuat data donasi halaman ${pageNumber}...`);
+                    }
+                });
+            });
+        });
+
+    });
+</script>
 @endsection

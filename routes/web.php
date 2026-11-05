@@ -20,3 +20,4 @@ Route::view('/inventaris', 'inventaris');
 Route::view('/pengaturan', 'pengaturan');
 Route::view('/lupa-password', 'lupa-password');
 Route::view('/preview-signage', 'preview-signage');
+Route::view('/preview-signage', 'preview-signage');

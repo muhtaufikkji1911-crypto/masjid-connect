@@ -1,6 +1,8 @@
 @extends('layouts.app')
-<!-- Tambahkan di bagian atas file Anda -->
+
+<!-- Library CSS untuk DatePicker -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
 @section('content')
 <div class="max-w-7xl mx-auto space-y-6 pb-10">
     
@@ -40,7 +42,6 @@
             <div class="flex items-center text-xs text-[#10b981] font-semibold">
                 <i class="fa-solid fa-arrow-trend-up mr-1.5"></i> +4.2% dari bulan lalu
             </div>
-            <!-- Dekorasi Icon Background -->
             <i class="fa-solid fa-building-columns absolute -bottom-6 -right-4 text-8xl text-gray-50 opacity-60"></i>
         </div>
 
@@ -88,7 +89,8 @@
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <i class="fa-regular fa-calendar text-gray-400"></i>
                     </div>
-                    <input type="text" value="1 Sept 2026 - 18 Sept 2026" class="bg-gray-50 border border-gray-200 text-gray-700 py-2.5 pl-10 pr-4 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#063f2b] focus:border-transparent font-medium cursor-pointer w-64" readonly>
+                    <!-- Ditambahkan ID date-range-picker di sini -->
+                    <input type="text" id="date-range-picker" placeholder="Pilih Rentang Tanggal..." class="bg-gray-50 border border-gray-200 text-gray-700 py-2.5 pl-10 pr-4 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#063f2b] focus:border-transparent font-medium cursor-pointer w-64" readonly>
                 </div>
             </div>
 
@@ -157,7 +159,6 @@
                         </td>
                         <td class="px-6 py-4 font-bold text-red-500">Rp 1.450.000</td>
                         <td class="px-6 py-4 text-center">
-                            <!-- Contoh jika ada foto bukti -->
                             <div class="w-8 h-8 mx-auto rounded bg-gray-200 overflow-hidden cursor-pointer hover:opacity-80 transition border border-gray-300">
                                 <img src="https://images.unsplash.com/photo-1621980838965-031ed42aeb04?q=80&w=100&auto=format&fit=crop" class="w-full h-full object-cover" alt="Bukti">
                             </div>
@@ -177,7 +178,7 @@
                         <td class="px-6 py-4 text-[13px]">Santunan Yatim</td>
                         <td class="px-6 py-4">
                             <p class="font-semibold text-gray-800 text-[13px]">Penyaluran Santunan Bulanan</p>
-                            <p class="text-[12px] text-gray-500 mt-0.5">- 20 Anak</p>
+                            <p class="text-[12px] text-gray-500 mt-0.5">20 Anak</p>
                         </td>
                         <td class="px-6 py-4">
                             <span class="bg-red-100 text-red-600 text-[10px] font-bold px-2.5 py-1 rounded uppercase tracking-wider">Pengeluaran</span>
@@ -226,7 +227,7 @@
             
             <div class="flex items-center space-x-1">
                 <button class="px-3 py-1.5 border border-gray-200 rounded text-gray-500 hover:bg-gray-50 transition text-xs"><i class="fa-solid fa-chevron-left"></i></button>
-                <button class="px-3 py-1.5 bg-[#063f2b] text-white font-medium rounded text-xs">1</button>
+                <button class="px-3 py-1.5 bg-[#063f2b] text-white font-medium rounded text-xs transition">1</button>
                 <button class="px-3 py-1.5 border border-gray-200 rounded text-gray-600 hover:bg-gray-50 transition font-medium text-xs">2</button>
                 <button class="px-3 py-1.5 border border-gray-200 rounded text-gray-600 hover:bg-gray-50 transition font-medium text-xs">3</button>
                 <span class="px-2 text-gray-400 text-xs">...</span>
@@ -237,330 +238,372 @@
 
     </div>
 </div>
+
 <!-- ========================================== -->
-    <!-- MODAL 1: CATAT PEMASUKAN KAS -->
-    <!-- ========================================== -->
-    <div id="pemasukanModal" class="fixed inset-0 z-[60] flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
-        <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" onclick="closePemasukanModal()"></div>
-        <div class="bg-white rounded-2xl w-full max-w-[500px] shadow-2xl relative z-10 flex flex-col max-h-[90vh] mx-4 transform scale-95 transition-transform duration-300" id="pemasukanModalBox">
-            
-            <!-- Header Modal Pemasukan (Nuansa Hijau) -->
-            <div class="px-7 py-5 flex justify-between items-start border-b border-gray-100 bg-green-50/50 rounded-t-2xl">
-                <div>
-                    <h2 class="text-xl font-bold text-gray-900 tracking-tight">Catat Pemasukan Kas</h2>
-                    <p class="text-xs text-gray-500 mt-1">Masukkan dana masuk ke kas utama masjid.</p>
-                </div>
-                <button onclick="closePemasukanModal()" class="text-gray-400 hover:text-gray-600 hover:bg-gray-200 w-8 h-8 rounded-full flex items-center justify-center transition">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
+<!-- MODAL 1: CATAT PEMASUKAN KAS -->
+<!-- ========================================== -->
+<div id="pemasukanModal" class="fixed inset-0 z-[60] flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+    <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" onclick="closePemasukanModal()"></div>
+    <div class="bg-white rounded-2xl w-full max-w-[500px] shadow-2xl relative z-10 flex flex-col max-h-[90vh] mx-4 transform scale-95 transition-transform duration-300" id="pemasukanModalBox">
+        
+        <div class="px-7 py-5 flex justify-between items-start border-b border-gray-100 bg-green-50/50 rounded-t-2xl">
+            <div>
+                <h2 class="text-xl font-bold text-gray-900 tracking-tight">Catat Pemasukan Kas</h2>
+                <p class="text-xs text-gray-500 mt-1">Masukkan dana masuk ke kas utama masjid.</p>
             </div>
-            
-            <div class="p-7 overflow-y-auto space-y-5" style="scrollbar-width: thin;">
-                <!-- Nominal -->
-                <div>
-                    <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Jumlah Pemasukan (Rp)</label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-[13px] font-bold text-[#10b981]">Rp</span>
-                        <input type="number" placeholder="0" class="w-full bg-green-50/30 border border-green-200 rounded-lg pl-10 pr-4 py-3 text-[16px] text-gray-900 font-bold focus:outline-none focus:border-[#10b981] focus:bg-white focus:ring-1 focus:ring-[#10b981] transition">
-                    </div>
-                </div>
-                
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    <!-- Kategori -->
-                    <div>
-                        <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Kategori</label>
-                        <select class="w-full appearance-none bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-[13px] text-gray-700 font-medium focus:outline-none focus:border-[#10b981] focus:bg-white transition cursor-pointer">
-                            <option>Infaq Jumat</option>
-                            <option>Kotak Amal Harian</option>
-                            <option>Sumbangan Donatur</option>
-                            <option>Lain-lain</option>
-                        </select>
-                    </div>
-                    <!-- Tanggal -->
-                    <div>
-                        <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Tanggal</label>
-                        <input type="date" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-[13px] text-gray-700 font-medium focus:outline-none focus:border-[#10b981] focus:bg-white transition cursor-text">
-                    </div>
-                </div>
-
-                <!-- Keterangan -->
-                <div>
-                    <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Keterangan / Sumber</label>
-                    <input type="text" placeholder="Contoh: Penghitungan kotak infaq lobi utama" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-[13px] text-gray-800 focus:outline-none focus:border-[#10b981] focus:bg-white focus:ring-1 focus:ring-[#10b981] transition">
-                </div>
-
-                <!-- Bukti -->
-                <div>
-                    <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Bukti Foto (Opsional)</label>
-                    <div class="border border-dashed border-gray-300 rounded-xl bg-gray-50 hover:bg-gray-100 p-4 flex items-center justify-center cursor-pointer transition">
-                        <i class="fa-solid fa-camera text-gray-400 mr-2"></i>
-                        <span class="text-[12px] text-gray-500 font-medium">Upload foto perhitungan/struk</span>
-                    </div>
+            <button onclick="closePemasukanModal()" class="text-gray-400 hover:text-gray-600 hover:bg-gray-200 w-8 h-8 rounded-full flex items-center justify-center transition">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+        </div>
+        
+        <div class="p-7 overflow-y-auto space-y-5" style="scrollbar-width: thin;">
+            <!-- Nominal -->
+            <div>
+                <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Jumlah Pemasukan (Rp)</label>
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-[13px] font-bold text-[#10b981]">Rp</span>
+                    <input type="number" placeholder="0" class="w-full bg-green-50/30 border border-green-200 rounded-lg pl-10 pr-4 py-3 text-[16px] text-gray-900 font-bold focus:outline-none focus:border-[#10b981] focus:bg-white focus:ring-1 focus:ring-[#10b981] transition">
                 </div>
             </div>
             
-            <div class="px-7 py-4 bg-gray-50 border-t border-gray-100 flex justify-between items-center rounded-b-2xl">
-                <button onclick="closePemasukanModal()" class="text-[13px] font-bold text-gray-600 hover:text-gray-900 transition px-4 py-2">Batal</button>
-                <button onclick="closePemasukanModal()" class="bg-[#10b981] hover:bg-[#059669] text-white px-6 py-2.5 rounded-lg text-[13px] font-bold transition shadow-md">Simpan Pemasukan</button>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <!-- Kategori -->
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Kategori</label>
+                    <select class="w-full appearance-none bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-[13px] text-gray-700 font-medium focus:outline-none focus:border-[#10b981] focus:bg-white transition cursor-pointer">
+                        <option>Infaq Jumat</option>
+                        <option>Kotak Amal Harian</option>
+                        <option>Sumbangan Donatur</option>
+                        <option>Lain-lain</option>
+                    </select>
+                </div>
+                <!-- Tanggal -->
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Tanggal</label>
+                    <input type="date" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-[13px] text-gray-700 font-medium focus:outline-none focus:border-[#10b981] focus:bg-white transition cursor-text">
+                </div>
+            </div>
+
+            <!-- Keterangan -->
+            <div>
+                <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Keterangan / Sumber</label>
+                <input type="text" placeholder="Contoh: Penghitungan kotak infaq lobi utama" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-[13px] text-gray-800 focus:outline-none focus:border-[#10b981] focus:bg-white focus:ring-1 focus:ring-[#10b981] transition">
+            </div>
+
+            <!-- Bukti -->
+            <div>
+                <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Bukti Foto (Opsional)</label>
+                <div class="border border-dashed border-gray-300 rounded-xl bg-gray-50 hover:bg-gray-100 p-4 flex items-center justify-center cursor-pointer transition">
+                    <i class="fa-solid fa-camera text-gray-400 mr-2"></i>
+                    <span class="text-[12px] text-gray-500 font-medium">Upload foto perhitungan/struk</span>
+                </div>
             </div>
         </div>
-    </div>
-
-
-    <!-- ========================================== -->
-    <!-- MODAL 2: CATAT PENGELUARAN KAS -->
-    <!-- ========================================== -->
-    <div id="pengeluaranModal" class="fixed inset-0 z-[60] flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
-        <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" onclick="closePengeluaranModal()"></div>
-        <div class="bg-white rounded-2xl w-full max-w-[500px] shadow-2xl relative z-10 flex flex-col max-h-[90vh] mx-4 transform scale-95 transition-transform duration-300" id="pengeluaranModalBox">
-            
-            <!-- Header Modal Pengeluaran (Nuansa Merah) -->
-            <div class="px-7 py-5 flex justify-between items-start border-b border-gray-100 bg-red-50/50 rounded-t-2xl">
-                <div>
-                    <h2 class="text-xl font-bold text-gray-900 tracking-tight">Catat Pengeluaran Kas</h2>
-                    <p class="text-xs text-gray-500 mt-1">Masukkan data pengeluaran operasional masjid.</p>
-                </div>
-                <button onclick="closePengeluaranModal()" class="text-gray-400 hover:text-gray-600 hover:bg-gray-200 w-8 h-8 rounded-full flex items-center justify-center transition">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
-            </div>
-            
-            <div class="p-7 overflow-y-auto space-y-5" style="scrollbar-width: thin;">
-                <!-- Nominal -->
-                <div>
-                    <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Jumlah Pengeluaran (Rp)</label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-[13px] font-bold text-red-500">Rp</span>
-                        <input type="number" placeholder="0" class="w-full bg-red-50/30 border border-red-200 rounded-lg pl-10 pr-4 py-3 text-[16px] text-gray-900 font-bold focus:outline-none focus:border-red-500 focus:bg-white focus:ring-1 focus:ring-red-500 transition">
-                    </div>
-                </div>
-                
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    <!-- Kategori -->
-                    <div>
-                        <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Kategori</label>
-                        <select class="w-full appearance-none bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-[13px] text-gray-700 font-medium focus:outline-none focus:border-red-500 focus:bg-white transition cursor-pointer">
-                            <option>Operasional & Listrik</option>
-                            <option>Insentif/Honor</option>
-                            <option>Perawatan & Perbaikan</option>
-                            <option>Konsumsi</option>
-                        </select>
-                    </div>
-                    <!-- Tanggal -->
-                    <div>
-                        <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Tanggal</label>
-                        <input type="date" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-[13px] text-gray-700 font-medium focus:outline-none focus:border-red-500 focus:bg-white transition cursor-text">
-                    </div>
-                </div>
-
-                <!-- Keterangan -->
-                <div>
-                    <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Deskripsi / Keterangan</label>
-                    <input type="text" placeholder="Contoh: Pembayaran token listrik dan PDAM" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-[13px] text-gray-800 focus:outline-none focus:border-red-500 focus:bg-white focus:ring-1 focus:ring-red-500 transition">
-                </div>
-
-                <!-- Bukti -->
-                <div>
-                    <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Bukti Nota/Kwitansi (Wajib)</label>
-                    <div class="border border-dashed border-gray-300 rounded-xl bg-gray-50 hover:bg-gray-100 p-4 flex items-center justify-center cursor-pointer transition">
-                        <i class="fa-solid fa-file-invoice text-gray-400 mr-2"></i>
-                        <span class="text-[12px] text-gray-500 font-medium">Upload foto nota bukti bayar</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="px-7 py-4 bg-gray-50 border-t border-gray-100 flex justify-between items-center rounded-b-2xl">
-                <button onclick="closePengeluaranModal()" class="text-[13px] font-bold text-gray-600 hover:text-gray-900 transition px-4 py-2">Batal</button>
-                <button onclick="closePengeluaranModal()" class="bg-red-500 hover:bg-red-600 text-white px-6 py-2.5 rounded-lg text-[13px] font-bold transition shadow-md">Simpan Pengeluaran</button>
-            </div>
+        
+        <div class="px-7 py-4 bg-gray-50 border-t border-gray-100 flex justify-between items-center rounded-b-2xl">
+            <button onclick="closePemasukanModal()" class="text-[13px] font-bold text-gray-600 hover:text-gray-900 transition px-4 py-2">Batal</button>
+            <button onclick="closePemasukanModal()" class="bg-[#10b981] hover:bg-[#059669] text-white px-6 py-2.5 rounded-lg text-[13px] font-bold transition shadow-md">Simpan Pemasukan</button>
         </div>
     </div>
+</div>
 
-
-    <!-- Script Kontrol Modal -->
-    <script>
-        // Modal Pemasukan
-        function openPemasukanModal() {
-            const modal = document.getElementById('pemasukanModal');
-            const box = document.getElementById('pemasukanModalBox');
-            modal.classList.remove('hidden');
-            setTimeout(() => {
-                modal.classList.remove('opacity-0');
-                box.classList.remove('scale-95');
-                box.classList.add('scale-100');
-            }, 10);
-        }
-        function closePemasukanModal() {
-            const modal = document.getElementById('pemasukanModal');
-            const box = document.getElementById('pemasukanModalBox');
-            modal.classList.add('opacity-0');
-            box.classList.remove('scale-100');
-            box.classList.add('scale-95');
-            setTimeout(() => { modal.classList.add('hidden'); }, 300);
-        }
-
-        // Modal Pengeluaran
-        function openPengeluaranModal() {
-            const modal = document.getElementById('pengeluaranModal');
-            const box = document.getElementById('pengeluaranModalBox');
-            modal.classList.remove('hidden');
-            setTimeout(() => {
-                modal.classList.remove('opacity-0');
-                box.classList.remove('scale-95');
-                box.classList.add('scale-100');
-            }, 10);
-        }
-        function closePengeluaranModal() {
-            const modal = document.getElementById('pengeluaranModal');
-            const box = document.getElementById('pengeluaranModalBox');
-            modal.classList.add('opacity-0');
-            box.classList.remove('scale-100');
-            box.classList.add('scale-95');
-            setTimeout(() => { modal.classList.add('hidden'); }, 300);
-        }
-    </script>
-    <!-- ========================================== -->
-    <!-- MODAL 3: EXPORT DATA KEUANGAN -->
-    <!-- ========================================== -->
-    <div id="exportModal" class="fixed inset-0 z-[60] flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
-        <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" onclick="closeExportModal()"></div>
-        <div class="bg-white rounded-2xl w-full max-w-[500px] shadow-2xl relative z-10 flex flex-col max-h-[90vh] mx-4 transform scale-95 transition-transform duration-300" id="exportModalBox">
-            
-            <div class="px-7 py-5 flex justify-between items-start border-b border-gray-100 bg-gray-50/50 rounded-t-2xl">
-                <div>
-                    <h2 class="text-xl font-bold text-gray-900 tracking-tight">Export Laporan Keuangan</h2>
-                    <p class="text-xs text-gray-500 mt-1">Unduh rekapitulasi kas masuk dan keluar.</p>
+<!-- ========================================== -->
+<!-- MODAL 2: CATAT PENGELUARAN KAS -->
+<!-- ========================================== -->
+<div id="pengeluaranModal" class="fixed inset-0 z-[60] flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+    <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" onclick="closePengeluaranModal()"></div>
+    <div class="bg-white rounded-2xl w-full max-w-[500px] shadow-2xl relative z-10 flex flex-col max-h-[90vh] mx-4 transform scale-95 transition-transform duration-300" id="pengeluaranModalBox">
+        
+        <div class="px-7 py-5 flex justify-between items-start border-b border-gray-100 bg-red-50/50 rounded-t-2xl">
+            <div>
+                <h2 class="text-xl font-bold text-gray-900 tracking-tight">Catat Pengeluaran Kas</h2>
+                <p class="text-xs text-gray-500 mt-1">Masukkan data pengeluaran operasional masjid.</p>
+            </div>
+            <button onclick="closePengeluaranModal()" class="text-gray-400 hover:text-gray-600 hover:bg-gray-200 w-8 h-8 rounded-full flex items-center justify-center transition">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+        </div>
+        
+        <div class="p-7 overflow-y-auto space-y-5" style="scrollbar-width: thin;">
+            <!-- Nominal -->
+            <div>
+                <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Jumlah Pengeluaran (Rp)</label>
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-[13px] font-bold text-red-500">Rp</span>
+                    <input type="number" placeholder="0" class="w-full bg-red-50/30 border border-red-200 rounded-lg pl-10 pr-4 py-3 text-[16px] text-gray-900 font-bold focus:outline-none focus:border-red-500 focus:bg-white focus:ring-1 focus:ring-red-500 transition">
                 </div>
-                <button onclick="closeExportModal()" class="text-gray-400 hover:text-gray-600 hover:bg-gray-200 w-8 h-8 rounded-full flex items-center justify-center transition">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
             </div>
             
-            <div class="p-7 overflow-y-auto space-y-5" style="scrollbar-width: thin;">
-                
-                <!-- Rentang Tanggal -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    <div>
-                        <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Dari Tanggal</label>
-                        <input type="date" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-[13px] text-gray-700 font-medium focus:outline-none focus:border-[#063f2b] focus:bg-white transition cursor-text">
-                    </div>
-                    <div>
-                        <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Sampai Tanggal</label>
-                        <input type="date" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-[13px] text-gray-700 font-medium focus:outline-none focus:border-[#063f2b] focus:bg-white transition cursor-text">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <!-- Kategori -->
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Kategori</label>
+                    <select class="w-full appearance-none bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-[13px] text-gray-700 font-medium focus:outline-none focus:border-red-500 focus:bg-white transition cursor-pointer">
+                        <option>Operasional & Listrik</option>
+                        <option>Insentif/Honor</option>
+                        <option>Perawatan & Perbaikan</option>
+                        <option>Konsumsi</option>
+                    </select>
+                </div>
+                <!-- Tanggal -->
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Tanggal</label>
+                    <input type="date" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-[13px] text-gray-700 font-medium focus:outline-none focus:border-red-500 focus:bg-white transition cursor-text">
+                </div>
+            </div>
+
+            <!-- Keterangan -->
+            <div>
+                <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Deskripsi / Keterangan</label>
+                <input type="text" placeholder="Contoh: Pembayaran token listrik dan PDAM" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-[13px] text-gray-800 focus:outline-none focus:border-red-500 focus:bg-white focus:ring-1 focus:ring-red-500 transition">
+            </div>
+
+            <!-- Bukti -->
+            <div>
+                <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Bukti Nota/Kwitansi (Wajib)</label>
+                <div class="border border-dashed border-gray-300 rounded-xl bg-gray-50 hover:bg-gray-100 p-4 flex items-center justify-center cursor-pointer transition">
+                    <i class="fa-solid fa-file-invoice text-gray-400 mr-2"></i>
+                    <span class="text-[12px] text-gray-500 font-medium">Upload foto nota bukti bayar</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="px-7 py-4 bg-gray-50 border-t border-gray-100 flex justify-between items-center rounded-b-2xl">
+            <button onclick="closePengeluaranModal()" class="text-[13px] font-bold text-gray-600 hover:text-gray-900 transition px-4 py-2">Batal</button>
+            <button onclick="closePengeluaranModal()" class="bg-red-500 hover:bg-red-600 text-white px-6 py-2.5 rounded-lg text-[13px] font-bold transition shadow-md">Simpan Pengeluaran</button>
+        </div>
+    </div>
+</div>
+
+<!-- ========================================== -->
+<!-- MODAL 3: EXPORT DATA KEUANGAN -->
+<!-- ========================================== -->
+<div id="exportModal" class="fixed inset-0 z-[60] flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+    <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" onclick="closeExportModal()"></div>
+    <div class="bg-white rounded-2xl w-full max-w-[500px] shadow-2xl relative z-10 flex flex-col max-h-[90vh] mx-4 transform scale-95 transition-transform duration-300" id="exportModalBox">
+        
+        <div class="px-7 py-5 flex justify-between items-start border-b border-gray-100 bg-gray-50/50 rounded-t-2xl">
+            <div>
+                <h2 class="text-xl font-bold text-gray-900 tracking-tight">Export Laporan Keuangan</h2>
+                <p class="text-xs text-gray-500 mt-1">Unduh rekapitulasi kas masuk dan keluar.</p>
+            </div>
+            <button onclick="closeExportModal()" class="text-gray-400 hover:text-gray-600 hover:bg-gray-200 w-8 h-8 rounded-full flex items-center justify-center transition">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+        </div>
+        
+        <div class="p-7 overflow-y-auto space-y-5" style="scrollbar-width: thin;">
+            <!-- Rentang Tanggal -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Dari Tanggal</label>
+                    <input type="date" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-[13px] text-gray-700 font-medium focus:outline-none focus:border-[#063f2b] focus:bg-white transition cursor-text">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Sampai Tanggal</label>
+                    <input type="date" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-[13px] text-gray-700 font-medium focus:outline-none focus:border-[#063f2b] focus:bg-white transition cursor-text">
+                </div>
+            </div>
+
+            <!-- Filter Jenis Transaksi -->
+            <div>
+                <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Jenis Transaksi</label>
+                <div class="relative">
+                    <select class="w-full appearance-none bg-gray-50 border border-gray-200 rounded-lg pl-4 pr-10 py-2.5 text-[13px] text-gray-700 font-medium focus:outline-none focus:border-[#063f2b] focus:bg-white focus:ring-1 focus:ring-[#063f2b] transition cursor-pointer">
+                        <option>Semua Transaksi (Buku Kas Umum)</option>
+                        <option>Hanya Pemasukan</option>
+                        <option>Hanya Pengeluaran</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-400">
+                        <i class="fa-solid fa-chevron-down text-xs"></i>
                     </div>
                 </div>
+            </div>
 
-                <!-- Filter Jenis Transaksi -->
-                <div>
-                    <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Jenis Transaksi</label>
-                    <div class="relative">
-                        <select class="w-full appearance-none bg-gray-50 border border-gray-200 rounded-lg pl-4 pr-10 py-2.5 text-[13px] text-gray-700 font-medium focus:outline-none focus:border-[#063f2b] focus:bg-white focus:ring-1 focus:ring-[#063f2b] transition cursor-pointer">
-                            <option>Semua Transaksi (Buku Kas Umum)</option>
-                            <option>Hanya Pemasukan</option>
-                            <option>Hanya Pengeluaran</option>
-                        </select>
-                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-400">
-                            <i class="fa-solid fa-chevron-down text-xs"></i>
+            <!-- Format File -->
+            <div>
+                <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Format Laporan</label>
+                <div class="flex items-center space-x-3">
+                    <!-- Excel Option -->
+                    <label class="flex-1 cursor-pointer">
+                        <input type="radio" name="format_keuangan" class="peer sr-only" checked>
+                        <div class="border border-gray-200 rounded-xl p-3 flex flex-col items-center justify-center text-gray-400 peer-checked:border-[#10b981] peer-checked:bg-green-50 peer-checked:text-[#10b981] transition shadow-sm">
+                            <i class="fa-solid fa-file-excel text-2xl mb-2"></i>
+                            <span class="text-xs font-bold">Ms. Excel</span>
                         </div>
-                    </div>
+                    </label>
+                    
+                    <!-- PDF Option -->
+                    <label class="flex-1 cursor-pointer">
+                        <input type="radio" name="format_keuangan" class="peer sr-only">
+                        <div class="border border-gray-200 rounded-xl p-3 flex flex-col items-center justify-center text-gray-400 peer-checked:border-red-500 peer-checked:bg-red-50 peer-checked:text-red-500 transition shadow-sm">
+                            <i class="fa-solid fa-file-pdf text-2xl mb-2"></i>
+                            <span class="text-xs font-bold">PDF Doc</span>
+                        </div>
+                    </label>
                 </div>
-
-                <!-- Format File -->
-                <div>
-                    <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Format Laporan</label>
-                    <div class="flex items-center space-x-3">
-                        <!-- Excel Option -->
-                        <label class="flex-1 cursor-pointer">
-                            <input type="radio" name="format_keuangan" class="peer sr-only" checked>
-                            <div class="border border-gray-200 rounded-xl p-3 flex flex-col items-center justify-center text-gray-400 peer-checked:border-[#10b981] peer-checked:bg-green-50 peer-checked:text-[#10b981] transition shadow-sm">
-                                <i class="fa-solid fa-file-excel text-2xl mb-2"></i>
-                                <span class="text-xs font-bold">Ms. Excel</span>
-                            </div>
-                        </label>
-                        
-                        <!-- PDF Option -->
-                        <label class="flex-1 cursor-pointer">
-                            <input type="radio" name="format_keuangan" class="peer sr-only">
-                            <div class="border border-gray-200 rounded-xl p-3 flex flex-col items-center justify-center text-gray-400 peer-checked:border-red-500 peer-checked:bg-red-50 peer-checked:text-red-500 transition shadow-sm">
-                                <i class="fa-solid fa-file-pdf text-2xl mb-2"></i>
-                                <span class="text-xs font-bold">PDF Doc</span>
-                            </div>
-                        </label>
-                    </div>
-                </div>
-                
             </div>
             
-            <div class="px-7 py-4 bg-gray-50 border-t border-gray-100 flex justify-between items-center rounded-b-2xl">
-                <button onclick="closeExportModal()" class="text-[13px] font-bold text-gray-600 hover:text-gray-900 transition px-4 py-2">Batal</button>
-                <button onclick="closeExportModal()" class="flex items-center space-x-2 bg-gray-800 hover:bg-black text-white px-6 py-2.5 rounded-lg text-[13px] font-bold transition shadow-md">
-                    <i class="fa-solid fa-download text-sm"></i>
-                    <span>Download Laporan</span>
-                </button>
-            </div>
+        </div>
+        
+        <div class="px-7 py-4 bg-gray-50 border-t border-gray-100 flex justify-between items-center rounded-b-2xl">
+            <button onclick="closeExportModal()" class="text-[13px] font-bold text-gray-600 hover:text-gray-900 transition px-4 py-2">Batal</button>
+            <button onclick="closeExportModal()" class="flex items-center space-x-2 bg-gray-800 hover:bg-black text-white px-6 py-2.5 rounded-lg text-[13px] font-bold transition shadow-md">
+                <i class="fa-solid fa-download text-sm"></i>
+                <span>Download Laporan</span>
+            </button>
         </div>
     </div>
+</div>
 
-    <!-- Script Kontrol Semua Modal (Ditulis Ulang dengan Tambahan Export) -->
-    <script>
-        // Modal Pemasukan
-        function openPemasukanModal() {
-            const modal = document.getElementById('pemasukanModal');
-            const box = document.getElementById('pemasukanModalBox');
-            modal.classList.remove('hidden');
-            setTimeout(() => {
-                modal.classList.remove('opacity-0');
-                box.classList.remove('scale-95');
-                box.classList.add('scale-100');
-            }, 10);
-        }
-        function closePemasukanModal() {
-            const modal = document.getElementById('pemasukanModal');
-            const box = document.getElementById('pemasukanModalBox');
-            modal.classList.add('opacity-0');
-            box.classList.remove('scale-100');
-            box.classList.add('scale-95');
-            setTimeout(() => { modal.classList.add('hidden'); }, 300);
+<!-- ========================================== -->
+<!-- SCRIPT CONTROL (MODAL, FLATPICKR, TABEL) -->
+<!-- ========================================== -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    // 1. Fungsi Buka/Tutup Modal Pemasukan
+    function openPemasukanModal() {
+        const modal = document.getElementById('pemasukanModal');
+        const box = document.getElementById('pemasukanModalBox');
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+            modal.classList.remove('opacity-0');
+            box.classList.remove('scale-95');
+            box.classList.add('scale-100');
+        }, 10);
+    }
+    function closePemasukanModal() {
+        const modal = document.getElementById('pemasukanModal');
+        const box = document.getElementById('pemasukanModalBox');
+        modal.classList.add('opacity-0');
+        box.classList.remove('scale-100');
+        box.classList.add('scale-95');
+        setTimeout(() => { modal.classList.add('hidden'); }, 300);
+    }
+
+    // 2. Fungsi Buka/Tutup Modal Pengeluaran
+    function openPengeluaranModal() {
+        const modal = document.getElementById('pengeluaranModal');
+        const box = document.getElementById('pengeluaranModalBox');
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+            modal.classList.remove('opacity-0');
+            box.classList.remove('scale-95');
+            box.classList.add('scale-100');
+        }, 10);
+    }
+    function closePengeluaranModal() {
+        const modal = document.getElementById('pengeluaranModal');
+        const box = document.getElementById('pengeluaranModalBox');
+        modal.classList.add('opacity-0');
+        box.classList.remove('scale-100');
+        box.classList.add('scale-95');
+        setTimeout(() => { modal.classList.add('hidden'); }, 300);
+    }
+
+    // 3. Fungsi Buka/Tutup Modal Export
+    function openExportModal() {
+        const modal = document.getElementById('exportModal');
+        const box = document.getElementById('exportModalBox');
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+            modal.classList.remove('opacity-0');
+            box.classList.remove('scale-95');
+            box.classList.add('scale-100');
+        }, 10);
+    }
+    function closeExportModal() {
+        const modal = document.getElementById('exportModal');
+        const box = document.getElementById('exportModalBox');
+        modal.classList.add('opacity-0');
+        box.classList.remove('scale-100');
+        box.classList.add('scale-95');
+        setTimeout(() => { modal.classList.add('hidden'); }, 300);
+    }
+
+    // 4. Inisialisasi Event DOM (Interaksi Form & Tabel)
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        // A. Flatpickr untuk Filter Rentang Tanggal
+        const dateInput = document.getElementById('date-range-picker');
+        if(dateInput) {
+            flatpickr(dateInput, {
+                mode: "range",
+                dateFormat: "d M Y",
+                onChange: function(selectedDates, dateStr, instance) {
+                    if(selectedDates.length === 2) {
+                        if (typeof showToast === "function") {
+                            showToast(`Memfilter data untuk tanggal: ${dateStr}`);
+                        } else {
+                            console.log(`Filter tanggal aktif: ${dateStr}`);
+                        }
+                    }
+                }
+            });
         }
 
-        // Modal Pengeluaran
-        function openPengeluaranModal() {
-            const modal = document.getElementById('pengeluaranModal');
-            const box = document.getElementById('pengeluaranModalBox');
-            modal.classList.remove('hidden');
-            setTimeout(() => {
-                modal.classList.remove('opacity-0');
-                box.classList.remove('scale-95');
-                box.classList.add('scale-100');
-            }, 10);
-        }
-        function closePengeluaranModal() {
-            const modal = document.getElementById('pengeluaranModal');
-            const box = document.getElementById('pengeluaranModalBox');
-            modal.classList.add('opacity-0');
-            box.classList.remove('scale-100');
-            box.classList.add('scale-95');
-            setTimeout(() => { modal.classList.add('hidden'); }, 300);
-        }
+        // B. Fungsi Tombol Aksi (Edit)
+        const btnEdits = document.querySelectorAll('.fa-pen-to-square');
+        btnEdits.forEach(btn => {
+            const parentBtn = btn.closest('button') || btn.closest('a');
+            if (parentBtn) {
+                parentBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (typeof showToast === "function") {
+                        showToast('Fitur edit transaksi ditekan!');
+                    } else {
+                        alert('Fitur edit transaksi ditekan!');
+                    }
+                });
+            }
+        });
 
-        // Modal Export (Baru ditambahkan)
-        function openExportModal() {
-            const modal = document.getElementById('exportModal');
-            const box = document.getElementById('exportModalBox');
-            modal.classList.remove('hidden');
-            setTimeout(() => {
-                modal.classList.remove('opacity-0');
-                box.classList.remove('scale-95');
-                box.classList.add('scale-100');
-            }, 10);
+        // C. Fungsi Tombol Aksi (Hapus)
+        const btnDeletes = document.querySelectorAll('.fa-trash-can');
+        btnDeletes.forEach(btn => {
+            const parentBtn = btn.closest('button') || btn.closest('a');
+            if (parentBtn) {
+                parentBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if(confirm('Apakah Anda yakin ingin menghapus transaksi ini?')) {
+                        if (typeof showToast === "function") {
+                            showToast('Transaksi berhasil dihapus.');
+                        } else {
+                            alert('Transaksi dihapus.');
+                        }
+                    }
+                });
+            }
+        });
+
+        // D. Fungsi Pagination Aktif
+        const paginationContainer = document.querySelector('.p-5.border-t.border-gray-100 .flex.items-center.space-x-1');
+        if(paginationContainer) {
+            const paginationLinks = paginationContainer.querySelectorAll('button:not(:first-child):not(:last-child)'); 
+            
+            paginationLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault(); 
+                    
+                    // Reset class untuk semua tombol pagination
+                    paginationLinks.forEach(l => {
+                        l.classList.remove('bg-[#063f2b]', 'text-white');
+                        l.classList.add('border-gray-200', 'text-gray-600', 'hover:bg-gray-50');
+                    });
+                    
+                    // Beri warna aktif (hijau) ke tombol yang ditekan
+                    this.classList.remove('border-gray-200', 'text-gray-600', 'hover:bg-gray-50');
+                    this.classList.add('bg-[#063f2b]', 'text-white');
+                    this.classList.remove('border'); 
+                    
+                    const pageNumber = this.innerText;
+                    if (typeof showToast === "function" && pageNumber.trim() !== '' && !isNaN(pageNumber)) {
+                        showToast(`Memuat halaman ${pageNumber}...`);
+                    }
+                });
+            });
         }
-        function closeExportModal() {
-            const modal = document.getElementById('exportModal');
-            const box = document.getElementById('exportModalBox');
-            modal.classList.add('opacity-0');
-            box.classList.remove('scale-100');
-            box.classList.add('scale-95');
-            setTimeout(() => { modal.classList.add('hidden'); }, 300);
-        }
-    </script>
+    });
+</script>
+
 @endsection
