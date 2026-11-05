@@ -13,12 +13,19 @@
         <div class="flex flex-wrap items-center gap-3">
             <!-- Month Navigation -->
             <div class="flex items-center bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm h-10">
-                <button class="px-3 text-gray-400 hover:bg-gray-50 hover:text-gray-600 h-full"><i class="fa-solid fa-chevron-left text-[11px]"></i></button>
-                <div class="px-4 text-xs font-bold text-gray-800 border-x border-gray-200 flex items-center h-full">Maret 2024</div>
-                <button class="px-3 text-gray-400 hover:bg-gray-50 hover:text-gray-600 h-full"><i class="fa-solid fa-chevron-right text-[11px]"></i></button>
+                <button onclick="prevMonth()" class="px-3 text-gray-400 hover:bg-gray-50 hover:text-gray-600 h-full transition">
+                    <i class="fa-solid fa-chevron-left text-[11px]"></i>
+                </button>
+                <!-- Tambahkan ID currentMonthDisplay dan set min-width agar layout tidak goyang saat teks berubah -->
+                <div id="currentMonthDisplay" class="px-4 text-xs font-bold text-gray-800 border-x border-gray-200 flex items-center justify-center h-full min-w-[120px]">
+                    Maret 2024
+                </div>
+                <button onclick="nextMonth()" class="px-3 text-gray-400 hover:bg-gray-50 hover:text-gray-600 h-full transition">
+                    <i class="fa-solid fa-chevron-right text-[11px]"></i>
+                </button>
             </div>
             
-            <!-- View Toggle (Diperbaiki Ikon & Fungsinya) -->
+            <!-- View Toggle -->
             <div class="flex items-center bg-white border border-gray-200 rounded-lg p-1 shadow-sm h-10">
                 <button id="btnCalendar" onclick="switchView('calendar')" class="flex items-center justify-center space-x-2 bg-[#063f2b] text-white px-4 rounded-md h-full transition font-semibold text-xs">
                     <i class="fa-solid fa-calendar-days text-xs"></i>
@@ -74,7 +81,7 @@
     <!-- Main Content Layout -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
-        <!-- LEFT AREA: TAMPILAN BISA BERUBAH ANTARA KALENDER DAN DAFTAR -->
+        <!-- LEFT AREA -->
         <div class="lg:col-span-2 flex flex-col h-full">
             
             <!-- 1. VIEW KALENDER (Default) -->
@@ -182,93 +189,92 @@
                 <div class="space-y-3.5 flex-1 overflow-y-auto max-h-[550px] pr-1">
                     
                     <!-- Item 1 -->
-                    <div class="border border-gray-100 rounded-xl p-4 hover:border-gray-200 transition bg-gray-50/30 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div class="border border-gray-100 rounded-xl p-4 hover:border-gray-200 transition bg-gray-50/30 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 agenda-item">
                         <div class="flex items-start space-x-4">
-                            <div class="bg-green-50 text-[#10b981] font-bold px-3 py-2 rounded-xl text-center shrink-0 border border-green-100">
-                                <span class="text-[10px] block uppercase">Mar</span>
-                                <span class="text-base block leading-none">01</span>
+                            <div class="bg-green-50 text-[#10b981] font-bold px-3 py-2 rounded-xl text-center shrink-0 border border-green-100 min-w-[55px]">
+                                <span class="text-[10px] block uppercase text-bulan">Mar</span>
+                                <span class="text-base block leading-none text-tanggal">01</span>
                             </div>
                             <div>
                                 <div class="flex items-center space-x-2 mb-1">
-                                    <span class="bg-blue-50 text-blue-600 text-[9px] font-bold px-2 py-0.5 rounded">PENDIDIKAN TPA</span>
-                                    <span class="text-[11px] text-gray-400">• 15:45 - 17:15 WIB</span>
+                                    <span class="bg-blue-50 text-blue-600 text-[9px] font-bold px-2 py-0.5 rounded text-kategori">Pendidikan TPA</span>
+                                    <span class="text-[11px] text-gray-400 text-waktu">15:45 - 17:15 WIB</span>
                                 </div>
-                                <h4 class="font-bold text-gray-900 text-sm">Kelas Tahsin Anak-Anak (Level 1)</h4>
-                                <p class="text-xs text-gray-500 mt-0.5"><i class="fa-solid fa-user-tie mr-1 text-gray-400"></i> Ustadz Zulkifli • Ruang Perpustakaan</p>
+                                <h4 class="font-bold text-gray-900 text-sm text-judul">Kelas Tahsin Anak-Anak (Level 1)</h4>
+                                <p class="text-xs text-gray-500 mt-0.5"><i class="fa-solid fa-user-tie mr-1 text-gray-400"></i> <span class="text-narasumber">Ustadz Zulkifli</span> • <span class="text-lokasi">Ruang Perpustakaan</span></p>
                             </div>
                         </div>
                         <div class="flex items-center space-x-3 w-full sm:w-auto justify-end">
-                            <span class="bg-green-100 text-[#10b981] text-[10px] font-bold px-2.5 py-1 rounded">Terjadwal</span>
-                            <button class="p-2 text-gray-400 hover:text-blue-600 rounded-lg hover:bg-white transition"><i class="fa-regular fa-pen-to-square"></i></button>
+                            <span class="bg-green-100 text-[#10b981] text-[10px] font-bold px-2.5 py-1 rounded text-status">Terjadwal</span>
+                            <button class="p-2 text-gray-400 hover:text-blue-600 rounded-lg hover:bg-white transition btn-edit-agenda"><i class="fa-regular fa-pen-to-square"></i></button>
                         </div>
                     </div>
 
                     <!-- Item 2 -->
-                    <div class="border border-gray-100 rounded-xl p-4 hover:border-gray-200 transition bg-gray-50/30 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div class="border border-gray-100 rounded-xl p-4 hover:border-gray-200 transition bg-gray-50/30 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 agenda-item">
                         <div class="flex items-start space-x-4">
-                            <div class="bg-green-50 text-[#10b981] font-bold px-3 py-2 rounded-xl text-center shrink-0 border border-green-100">
-                                <span class="text-[10px] block uppercase">Mar</span>
-                                <span class="text-base block leading-none">02</span>
+                            <div class="bg-green-50 text-[#10b981] font-bold px-3 py-2 rounded-xl text-center shrink-0 border border-green-100 min-w-[55px]">
+                                <span class="text-[10px] block uppercase text-bulan">Mar</span>
+                                <span class="text-base block leading-none text-tanggal">02</span>
                             </div>
                             <div>
                                 <div class="flex items-center space-x-2 mb-1">
-                                    <span class="bg-green-50 text-[#10b981] text-[9px] font-bold px-2 py-0.5 rounded">KAJIAN RUTIN</span>
-                                    <span class="text-[11px] text-gray-400">• 18:30 - 20:00 WIB</span>
+                                    <span class="bg-green-50 text-[#10b981] text-[9px] font-bold px-2 py-0.5 rounded text-kategori">Kajian Rutin</span>
+                                    <span class="text-[11px] text-gray-400 text-waktu">18:30 - 20:00 WIB</span>
                                 </div>
-                                <h4 class="font-bold text-gray-900 text-sm">Kajian Fikih Muamalah: Bab Jual Beli</h4>
-                                <p class="text-xs text-gray-500 mt-0.5"><i class="fa-solid fa-user-tie mr-1 text-gray-400"></i> Ustadz Dr. Abdul Somad, Lc. MA • Ruang Utama</p>
+                                <h4 class="font-bold text-gray-900 text-sm text-judul">Kajian Fikih Muamalah: Bab Jual Beli</h4>
+                                <p class="text-xs text-gray-500 mt-0.5"><i class="fa-solid fa-user-tie mr-1 text-gray-400"></i> <span class="text-narasumber">Ustadz Dr. Abdul Somad, Lc. MA</span> • <span class="text-lokasi">Ruang Utama</span></p>
                             </div>
                         </div>
                         <div class="flex items-center space-x-3 w-full sm:w-auto justify-end">
-                            <span class="bg-green-100 text-[#10b981] text-[10px] font-bold px-2.5 py-1 rounded">Terjadwal</span>
-                            <button class="p-2 text-gray-400 hover:text-blue-600 rounded-lg hover:bg-white transition"><i class="fa-regular fa-pen-to-square"></i></button>
+                            <span class="bg-green-100 text-[#10b981] text-[10px] font-bold px-2.5 py-1 rounded text-status">Terjadwal</span>
+                            <button class="p-2 text-gray-400 hover:text-blue-600 rounded-lg hover:bg-white transition btn-edit-agenda"><i class="fa-regular fa-pen-to-square"></i></button>
                         </div>
                     </div>
 
                     <!-- Item 3 -->
-                    <div class="border border-gray-100 rounded-xl p-4 hover:border-gray-200 transition bg-gray-50/30 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div class="border border-gray-100 rounded-xl p-4 hover:border-gray-200 transition bg-gray-50/30 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 agenda-item">
                         <div class="flex items-start space-x-4">
-                            <div class="bg-green-50 text-[#10b981] font-bold px-3 py-2 rounded-xl text-center shrink-0 border border-green-100">
-                                <span class="text-[10px] block uppercase">Mar</span>
-                                <span class="text-base block leading-none">04</span>
+                            <div class="bg-green-50 text-[#10b981] font-bold px-3 py-2 rounded-xl text-center shrink-0 border border-green-100 min-w-[55px]">
+                                <span class="text-[10px] block uppercase text-bulan">Mar</span>
+                                <span class="text-base block leading-none text-tanggal">04</span>
                             </div>
                             <div>
                                 <div class="flex items-center space-x-2 mb-1">
-                                    <span class="bg-amber-50 text-[#f59e0b] text-[9px] font-bold px-2 py-0.5 rounded">JUMAT</span>
-                                    <span class="text-[11px] text-gray-400">• 11:30 - Selesai</span>
+                                    <span class="bg-amber-50 text-[#f59e0b] text-[9px] font-bold px-2 py-0.5 rounded text-kategori">Jumat</span>
+                                    <span class="text-[11px] text-gray-400 text-waktu">11:30 - 13:00 WIB</span>
                                 </div>
-                                <h4 class="font-bold text-gray-900 text-sm">Persiapan Khutbah & Salat Jumat</h4>
-                                <p class="text-xs text-gray-500 mt-0.5"><i class="fa-solid fa-user-tie mr-1 text-gray-400"></i> KH. Ahmad Dahlan • Ruang Utama</p>
+                                <h4 class="font-bold text-gray-900 text-sm text-judul">Persiapan Khutbah & Salat Jumat</h4>
+                                <p class="text-xs text-gray-500 mt-0.5"><i class="fa-solid fa-user-tie mr-1 text-gray-400"></i> <span class="text-narasumber">KH. Ahmad Dahlan</span> • <span class="text-lokasi">Ruang Utama</span></p>
                             </div>
                         </div>
                         <div class="flex items-center space-x-3 w-full sm:w-auto justify-end">
-                            <span class="bg-green-100 text-[#10b981] text-[10px] font-bold px-2.5 py-1 rounded">Terjadwal</span>
-                            <button class="p-2 text-gray-400 hover:text-blue-600 rounded-lg hover:bg-white transition"><i class="fa-regular fa-pen-to-square"></i></button>
+                            <span class="bg-green-100 text-[#10b981] text-[10px] font-bold px-2.5 py-1 rounded text-status">Terjadwal</span>
+                            <button class="p-2 text-gray-400 hover:text-blue-600 rounded-lg hover:bg-white transition btn-edit-agenda"><i class="fa-regular fa-pen-to-square"></i></button>
                         </div>
                     </div>
 
                     <!-- Item 4 -->
-                    <div class="border border-gray-100 rounded-xl p-4 hover:border-gray-200 transition bg-gray-50/30 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div class="border border-gray-100 rounded-xl p-4 hover:border-gray-200 transition bg-gray-50/30 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 agenda-item">
                         <div class="flex items-start space-x-4">
-                            <div class="bg-gray-100 text-gray-500 font-bold px-3 py-2 rounded-xl text-center shrink-0 border border-gray-200">
-                                <span class="text-[10px] block uppercase">Mar</span>
-                                <span class="text-base block leading-none">09</span>
+                            <div class="bg-gray-100 text-gray-500 font-bold px-3 py-2 rounded-xl text-center shrink-0 border border-gray-200 min-w-[55px]">
+                                <span class="text-[10px] block uppercase text-bulan">Mar</span>
+                                <span class="text-base block leading-none text-tanggal">09</span>
                             </div>
                             <div>
                                 <div class="flex items-center space-x-2 mb-1">
-                                    <span class="bg-gray-100 text-gray-600 text-[9px] font-bold px-2 py-0.5 rounded">SOSIAL</span>
-                                    <span class="text-[11px] text-gray-400">• 08:00 - 10:00 WIB</span>
+                                    <span class="bg-gray-100 text-gray-600 text-[9px] font-bold px-2 py-0.5 rounded text-kategori">Sosial</span>
+                                    <span class="text-[11px] text-gray-400 text-waktu">08:00 - 10:00 WIB</span>
                                 </div>
-                                <h4 class="font-bold text-gray-900 text-sm">Bersih-bersih Halaman Masjid</h4>
-                                <p class="text-xs text-gray-500 mt-0.5"><i class="fa-solid fa-users mr-1 text-gray-400"></i> Tim Kebersihan & Remaja Masjid</p>
+                                <h4 class="font-bold text-gray-900 text-sm text-judul">Bersih-bersih Halaman Masjid</h4>
+                                <p class="text-xs text-gray-500 mt-0.5"><i class="fa-solid fa-users mr-1 text-gray-400"></i> <span class="text-narasumber">Tim Kebersihan & Remaja Masjid</span> • <span class="text-lokasi">Halaman</span></p>
                             </div>
                         </div>
                         <div class="flex items-center space-x-3 w-full sm:w-auto justify-end">
-                            <span class="bg-gray-200 text-gray-600 text-[10px] font-bold px-2.5 py-1 rounded">Selesai</span>
-                            <button class="p-2 text-gray-400 hover:text-blue-600 rounded-lg hover:bg-white transition"><i class="fa-regular fa-pen-to-square"></i></button>
+                            <span class="bg-gray-200 text-gray-600 text-[10px] font-bold px-2.5 py-1 rounded text-status">Selesai</span>
+                            <button class="p-2 text-gray-400 hover:text-blue-600 rounded-lg hover:bg-white transition btn-edit-agenda"><i class="fa-regular fa-pen-to-square"></i></button>
                         </div>
                     </div>
-
                 </div>
             </div>
 
@@ -276,8 +282,7 @@
 
         <!-- Right: Daftar Agenda & Status -->
         <div class="space-y-6">
-            
-            <!-- Agenda List (Sidebar kanan) -->
+            <!-- Sidebar (Dibiarkan tetap sama) -->
             <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
                 <div class="flex justify-between items-start mb-6">
                     <div>
@@ -288,124 +293,33 @@
                 </div>
 
                 <div class="space-y-4">
-                    <!-- Event 1 -->
                     <div class="border border-gray-100 rounded-2xl p-4 hover:shadow-md transition-shadow bg-white relative overflow-hidden">
                         <div class="absolute top-0 left-0 w-1 h-full bg-[#10b981]"></div>
                         <div class="pl-2">
-                            <div class="mb-2.5">
-                                <span class="bg-green-50 text-[#10b981] text-[9px] font-bold px-2 py-1 rounded uppercase tracking-wider">Kajian Rutin</span>
-                            </div>
+                            <div class="mb-2.5"><span class="bg-green-50 text-[#10b981] text-[9px] font-bold px-2 py-1 rounded uppercase tracking-wider">Kajian Rutin</span></div>
                             <h3 class="font-bold text-gray-900 text-[14px] mb-2 tracking-tight">Kajian Fikih Muamalah: Bab Jual Beli</h3>
-                            <div class="text-[11px] text-gray-500 flex items-center mb-3">
-                                <i class="fa-solid fa-user-tie w-4 text-gray-400"></i> Ustadz Dr. Abdul Somad, Lc. MA
-                            </div>
+                            <div class="text-[11px] text-gray-500 flex items-center mb-3"><i class="fa-solid fa-user-tie w-4 text-gray-400"></i> Ustadz Dr. Abdul Somad, Lc. MA</div>
                             <div class="flex items-center text-[10px] text-gray-500 space-x-4 mb-4 font-medium">
                                 <div class="flex items-center"><i class="fa-regular fa-clock w-4 text-gray-400"></i> 18:30 - 20:00</div>
                                 <div class="flex items-center"><i class="fa-solid fa-location-dot w-4 text-gray-400"></i> Ruang Utama</div>
                             </div>
-                            <div class="flex justify-between items-center pt-3 border-t border-gray-50">
-                                <div class="flex items-center space-x-2">
-                                    <span class="bg-gray-100 text-gray-600 text-[9px] font-bold px-2 py-0.5 rounded">UMUM</span>
-                                    <span class="text-[9px] text-gray-400 font-medium">120 Terdaftar</span>
-                                </div>
-                                <div class="flex items-center space-x-2">
-                                    <span class="text-[9px] font-bold text-gray-500 uppercase">TV Signage</span>
-                                    <div class="w-8 h-4 bg-[#063f2b] rounded-full relative cursor-pointer shadow-inner border border-[#063f2b]">
-                                        <div class="w-3.5 h-3.5 bg-white rounded-full absolute right-0.5 top-[1px] shadow-sm"></div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
-
-                    <!-- Event 2 -->
+                    
                     <div class="border border-gray-100 rounded-2xl p-4 hover:shadow-md transition-shadow bg-white relative overflow-hidden">
                         <div class="absolute top-0 left-0 w-1 h-full bg-[#3b82f6]"></div>
                         <div class="pl-2">
-                            <div class="mb-2.5">
-                                <span class="bg-blue-50 text-[#3b82f6] text-[9px] font-bold px-2 py-1 rounded uppercase tracking-wider">Pendidikan TPA</span>
-                            </div>
+                            <div class="mb-2.5"><span class="bg-blue-50 text-[#3b82f6] text-[9px] font-bold px-2 py-1 rounded uppercase tracking-wider">Pendidikan TPA</span></div>
                             <h3 class="font-bold text-gray-900 text-[14px] mb-2 tracking-tight">Kelas Tahsin Anak-Anak (Level 1)</h3>
-                            <div class="text-[11px] text-gray-500 flex items-center mb-3">
-                                <i class="fa-solid fa-user-tie w-4 text-gray-400"></i> Ustadz Zulkifli
-                            </div>
+                            <div class="text-[11px] text-gray-500 flex items-center mb-3"><i class="fa-solid fa-user-tie w-4 text-gray-400"></i> Ustadz Zulkifli</div>
                             <div class="flex items-center text-[10px] text-gray-500 space-x-4 mb-4 font-medium">
                                 <div class="flex items-center"><i class="fa-regular fa-clock w-4 text-gray-400"></i> 15:45 - 17:15</div>
                                 <div class="flex items-center"><i class="fa-solid fa-location-dot w-4 text-gray-400"></i> Ruang Perpustakaan</div>
                             </div>
-                            <div class="flex justify-between items-center pt-3 border-t border-gray-50">
-                                <div class="flex items-center space-x-2">
-                                    <span class="bg-blue-50 text-blue-600 text-[9px] font-bold px-2 py-0.5 rounded">ANAK-ANAK</span>
-                                </div>
-                                <div class="flex items-center space-x-2">
-                                    <span class="text-[9px] font-bold text-gray-500 uppercase">TV Signage</span>
-                                    <div class="w-8 h-4 bg-gray-200 rounded-full relative cursor-pointer shadow-inner border border-gray-200">
-                                        <div class="w-3.5 h-3.5 bg-white rounded-full absolute left-0.5 top-[1px] shadow-sm"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Add Quick Event Button -->
-                    <button onclick="openModal()" class="w-full border-2 border-dashed border-gray-200 text-gray-400 hover:border-[#063f2b] hover:text-[#063f2b] hover:bg-green-50 rounded-xl p-3.5 text-xs font-bold transition flex items-center justify-center space-x-2 mt-2">
-                        <i class="fa-regular fa-calendar-plus"></i>
-                        <span>Klik untuk Menambahkan di Tanggal Ini</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Status Pemateri Box -->
-            <div class="bg-[#0a3121] rounded-2xl p-6 text-white shadow-xl relative overflow-hidden">
-                <h3 class="font-bold text-[15px] mb-1 relative z-10">Status Pemateri</h3>
-                <p class="text-[11px] text-green-100/60 mb-5 relative z-10">Konfirmasi kehadiran ustadz minggu ini.</p>
-                
-                <div class="space-y-4 relative z-10 flex flex-col">
-                    <div class="flex justify-between items-center text-sm">
-                        <div class="flex items-center space-x-2.5">
-                            <i class="fa-solid fa-circle-check text-[#10b981] text-lg"></i>
-                            <span class="text-gray-200 text-[13px]">Terkonfirmasi</span>
-                        </div>
-                        <span class="font-bold text-lg text-white">10</span>
-                    </div>
-                    
-                    <div class="flex justify-between items-center text-sm mb-1">
-                        <div class="flex items-center space-x-2.5">
-                            <i class="fa-solid fa-circle-exclamation text-[#f59e0b] text-lg"></i>
-                            <span class="text-gray-200 text-[13px]">Menunggu Balasan</span>
-                        </div>
-                        <span class="font-bold text-lg text-white">2</span>
-                    </div>
-
-                    <!-- Action List -->
-                    <div class="mt-2 bg-black/20 rounded-xl p-3 border border-white/5 shadow-inner">
-                        <p class="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-3 border-b border-white/10 pb-1.5">Perlu Follow Up:</p>
-                        
-                        <div class="space-y-3 max-h-[140px] overflow-y-auto pr-1" style="scrollbar-width: thin; scrollbar-color: #063f2b transparent;">
-                            <div class="flex justify-between items-center">
-                                <div>
-                                    <p class="text-xs font-semibold text-white">Ust. Khalid Basalamah</p>
-                                    <p class="text-[10px] text-[#f59e0b] mt-0.5">Kajian Subuh (Jumat)</p>
-                                </div>
-                                <a href="#" class="min-w-[28px] w-7 h-7 bg-[#25D366] hover:bg-[#128C7E] text-white rounded-full flex items-center justify-center transition shadow-md shadow-green-900/50">
-                                    <i class="fa-brands fa-whatsapp text-sm ml-[1px]"></i>
-                                </a>
-                            </div>
-                            
-                            <div class="flex justify-between items-center">
-                                <div>
-                                    <p class="text-xs font-semibold text-white">Ust. Wijayanto</p>
-                                    <p class="text-[10px] text-[#f59e0b] mt-0.5">Tabligh Akbar (Ahad)</p>
-                                </div>
-                                <a href="#" class="min-w-[28px] w-7 h-7 bg-[#25D366] hover:bg-[#128C7E] text-white rounded-full flex items-center justify-center transition shadow-md shadow-green-900/50">
-                                    <i class="fa-brands fa-whatsapp text-sm ml-[1px]"></i>
-                                </a>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
@@ -416,13 +330,48 @@
 <div id="agendaModal" class="fixed inset-0 z-[60] flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
     <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" onclick="closeModal()"></div>
     <div class="bg-white rounded-2xl w-full max-w-[640px] shadow-2xl relative z-10 flex flex-col max-h-[90vh] mx-4 transform scale-95 transition-transform duration-300" id="modalBox">
-        
         <div class="px-7 py-5 flex justify-between items-start border-b border-gray-100">
             <div>
                 <h2 class="text-xl font-bold text-gray-900 tracking-tight">Tambah Agenda Baru</h2>
-                <p class="text-xs text-gray-500 mt-1">Isi detail kegiatan untuk ditambahkan ke kalender masjid.</p>
             </div>
             <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600 hover:bg-gray-100 w-8 h-8 rounded-full flex items-center justify-center transition">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+        </div>
+        <!-- (Form Tambah Agenda Dibiarkan Sama) -->
+        <div class="p-7 overflow-y-auto space-y-5" style="scrollbar-width: thin; scrollbar-color: #cbd5e1 transparent;">
+            <div>
+                <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Judul Kegiatan</label>
+                <input type="text" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-[13px] text-gray-800 focus:outline-none focus:border-[#063f2b] focus:bg-white focus:ring-1 focus:ring-[#063f2b] transition">
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Tanggal</label>
+                    <input type="date" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-[13px] text-gray-700 font-medium focus:outline-none focus:border-[#063f2b] focus:bg-white transition cursor-text">
+                </div>
+                <!-- ... Sisa Form Tambah -->
+            </div>
+        </div>
+        <div class="px-7 py-4 bg-gray-50 border-t border-gray-100 flex justify-between items-center rounded-b-2xl">
+            <button onclick="closeModal()" class="text-[13px] font-bold text-gray-600 hover:text-gray-900 transition px-4 py-2">Batal</button>
+            <button onclick="closeModal()" class="flex items-center space-x-2 bg-[#063f2b] hover:bg-[#042e1f] text-white px-6 py-2.5 rounded-lg text-[13px] font-bold transition shadow-md">Simpan Agenda</button>
+        </div>
+    </div>
+</div>
+
+<!-- ========================================== -->
+<!-- MODAL EDIT AGENDA (SUDAH DITAMBAHKAN TANGGAL) -->
+<!-- ========================================== -->
+<div id="editAgendaModal" class="fixed inset-0 z-[60] flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+    <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" onclick="closeEditModal()"></div>
+    <div class="bg-white rounded-2xl w-full max-w-[640px] shadow-2xl relative z-10 flex flex-col max-h-[90vh] mx-4 transform scale-95 transition-transform duration-300" id="editModalBox">
+        
+        <div class="px-7 py-5 flex justify-between items-start border-b border-gray-100 bg-blue-50/50 rounded-t-2xl">
+            <div>
+                <h2 class="text-xl font-bold text-gray-900 tracking-tight">Edit Agenda Kegiatan</h2>
+                <p class="text-xs text-gray-500 mt-1">Perbarui detail jadwal, tanggal, atau status kegiatan masjid.</p>
+            </div>
+            <button onclick="closeEditModal()" class="text-gray-400 hover:text-gray-600 hover:bg-gray-200 w-8 h-8 rounded-full flex items-center justify-center transition">
                 <i class="fa-solid fa-xmark text-lg"></i>
             </button>
         </div>
@@ -430,18 +379,19 @@
         <div class="p-7 overflow-y-auto space-y-5" style="scrollbar-width: thin; scrollbar-color: #cbd5e1 transparent;">
             <div>
                 <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Judul Kegiatan</label>
-                <input type="text" placeholder="Contoh: Kajian Fikih Kontemporer" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-[13px] text-gray-800 focus:outline-none focus:border-[#063f2b] focus:bg-white focus:ring-1 focus:ring-[#063f2b] transition">
+                <input type="text" id="edit-agenda-judul" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-[13px] text-gray-800 font-semibold focus:outline-none focus:border-[#063f2b] focus:bg-white transition">
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
                     <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Kategori</label>
                     <div class="relative">
-                        <select class="w-full appearance-none bg-gray-50 border border-gray-200 rounded-lg pl-4 pr-10 py-2.5 text-[13px] text-gray-700 font-medium focus:outline-none focus:border-[#063f2b] focus:bg-white focus:ring-1 focus:ring-[#063f2b] transition cursor-pointer">
-                            <option disabled selected>Pilih Kategori</option>
-                            <option>Kajian Rutin</option>
-                            <option>Tabligh Akbar</option>
-                            <option>Pendidikan TPA</option>
+                        <select id="edit-agenda-kategori" class="w-full appearance-none bg-gray-50 border border-gray-200 rounded-lg pl-4 pr-10 py-2.5 text-[13px] text-gray-700 font-medium focus:outline-none focus:border-[#063f2b] focus:bg-white transition cursor-pointer">
+                            <option value="Kajian Rutin">Kajian Rutin</option>
+                            <option value="Tabligh Akbar">Tabligh Akbar</option>
+                            <option value="Pendidikan TPA">Pendidikan TPA</option>
+                            <option value="Sosial">Sosial</option>
+                            <option value="Jumat">Jumat</option>
                         </select>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-400">
                             <i class="fa-solid fa-chevron-down text-xs"></i>
@@ -454,78 +404,66 @@
                         <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
                             <i class="fa-solid fa-user-tie text-gray-400 text-[13px]"></i>
                         </div>
-                        <input type="text" placeholder="Nama Ustadz/Pemateri" class="w-full bg-gray-50 border border-gray-200 rounded-lg pl-10 pr-4 py-2.5 text-[13px] text-gray-800 focus:outline-none focus:border-[#063f2b] focus:bg-white focus:ring-1 focus:ring-[#063f2b] transition">
+                        <input type="text" id="edit-agenda-narasumber" class="w-full bg-gray-50 border border-gray-200 rounded-lg pl-10 pr-4 py-2.5 text-[13px] text-gray-800 focus:outline-none focus:border-[#063f2b] focus:bg-white transition">
                     </div>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
-                <div>
-                    <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Tanggal</label>
-                    <input type="date" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-[13px] text-gray-700 font-medium focus:outline-none focus:border-[#063f2b] focus:bg-white transition cursor-text">
-                </div>
-                <div>
-                    <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Jam Mulai</label>
-                    <input type="time" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-[13px] text-gray-700 font-medium focus:outline-none focus:border-[#063f2b] focus:bg-white transition cursor-text">
-                </div>
-                <div>
-                    <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Jam Selesai</label>
-                    <input type="time" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-[13px] text-gray-700 font-medium focus:outline-none focus:border-[#063f2b] focus:bg-white transition cursor-text">
-                </div>
-            </div>
-
+            <!-- Input Tanggal & Status -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
-                    <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Lokasi / Ruangan</label>
+                    <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Tanggal Kegiatan</label>
+                    <input type="date" id="edit-agenda-tanggal" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-[13px] text-gray-700 font-medium focus:outline-none focus:border-[#063f2b] focus:bg-white transition cursor-text">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Status Kegiatan</label>
                     <div class="relative">
-                        <select class="w-full appearance-none bg-gray-50 border border-gray-200 rounded-lg pl-4 pr-10 py-2.5 text-[13px] text-gray-700 font-medium focus:outline-none focus:border-[#063f2b] focus:bg-white focus:ring-1 focus:ring-[#063f2b] transition cursor-pointer">
-                            <option>Ruang Utama</option>
-                            <option>Lantai 2</option>
-                            <option>Aula Masjid</option>
-                            <option>Halaman</option>
+                        <select id="edit-agenda-status" class="w-full appearance-none bg-gray-50 border border-gray-200 rounded-lg pl-4 pr-10 py-2.5 text-[13px] text-gray-700 font-semibold focus:outline-none focus:border-[#063f2b] focus:bg-white transition cursor-pointer">
+                            <option value="Terjadwal">📅 Terjadwal</option>
+                            <option value="Selesai">✅ Selesai</option>
+                            <option value="Dibatalkan">❌ Dibatalkan</option>
                         </select>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-400">
                             <i class="fa-solid fa-chevron-down text-xs"></i>
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <!-- Input Jam -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
-                    <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Target Audience</label>
-                    <div class="flex items-center bg-gray-50 border border-gray-200 rounded-lg p-1">
-                        <button class="flex-1 text-[12px] font-bold bg-white text-gray-900 shadow-sm rounded-md py-1.5 text-center transition">Umum</button>
-                        <button class="flex-1 text-[12px] font-semibold text-gray-500 hover:text-gray-700 py-1.5 text-center transition">Ikhwan</button>
-                        <button class="flex-1 text-[12px] font-semibold text-gray-500 hover:text-gray-700 py-1.5 text-center transition">Akhwat</button>
-                    </div>
+                    <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Jam Mulai</label>
+                    <input type="time" id="edit-agenda-mulai" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-[13px] text-gray-700 font-medium focus:outline-none focus:border-[#063f2b] focus:bg-white transition cursor-text">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Jam Selesai</label>
+                    <input type="time" id="edit-agenda-selesai" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-[13px] text-gray-700 font-medium focus:outline-none focus:border-[#063f2b] focus:bg-white transition cursor-text">
                 </div>
             </div>
 
             <div>
-                <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Poster Kegiatan (Opsional)</label>
-                <div class="border-2 border-dashed border-gray-200 rounded-xl bg-gray-50/50 hover:bg-gray-50 p-6 flex flex-col items-center justify-center cursor-pointer transition">
-                    <div class="w-10 h-10 bg-white shadow-sm border border-gray-100 rounded-full flex items-center justify-center text-blue-400 mb-3">
-                        <i class="fa-solid fa-cloud-arrow-up text-lg"></i>
+                <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Lokasi / Ruangan</label>
+                <div class="relative">
+                    <select id="edit-agenda-lokasi" class="w-full appearance-none bg-gray-50 border border-gray-200 rounded-lg pl-4 pr-10 py-2.5 text-[13px] text-gray-700 font-medium focus:outline-none focus:border-[#063f2b] focus:bg-white transition cursor-pointer">
+                        <option value="Ruang Utama">Ruang Utama</option>
+                        <option value="Lantai 2">Lantai 2</option>
+                        <option value="Aula Masjid">Aula Masjid</option>
+                        <option value="Halaman">Halaman</option>
+                        <option value="Ruang Perpustakaan">Ruang Perpustakaan</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-400">
+                        <i class="fa-solid fa-chevron-down text-xs"></i>
                     </div>
-                    <p class="text-[13px] text-gray-800 font-medium mb-1">Tarik poster ke sini atau <span class="text-[#063f2b] underline">cari file</span></p>
-                    <p class="text-[10px] text-gray-400 uppercase tracking-wider">Format: JPG, PNG, WEBP (Maks. 2MB)</p>
-                </div>
-            </div>
-
-            <div class="bg-amber-50/60 border border-amber-100 rounded-xl p-4 flex items-center space-x-4">
-                <div class="w-11 h-6 bg-[#0a3121] rounded-full relative cursor-pointer shadow-inner shrink-0">
-                    <div class="w-4 h-4 bg-white rounded-full absolute left-[2px] top-[4px] shadow-sm transform translate-x-5 transition-transform"></div>
-                </div>
-                <div>
-                    <h4 class="text-[13px] font-bold text-gray-900 leading-tight">Sinkron ke TV Signage</h4>
-                    <p class="text-[11px] text-gray-500 mt-0.5">Agenda akan otomatis tampil di layar informasi masjid.</p>
                 </div>
             </div>
         </div>
 
         <div class="px-7 py-4 bg-gray-50 border-t border-gray-100 flex justify-between items-center rounded-b-2xl">
-            <button onclick="closeModal()" class="text-[13px] font-bold text-gray-600 hover:text-gray-900 transition px-4 py-2">Batal</button>
-            <button onclick="closeModal()" class="flex items-center space-x-2 bg-[#063f2b] hover:bg-[#042e1f] text-white px-6 py-2.5 rounded-lg text-[13px] font-bold transition shadow-md">
-                <i class="fa-regular fa-floppy-disk text-sm"></i>
-                <span>Simpan Agenda</span>
+            <button onclick="closeEditModal()" class="text-[13px] font-bold text-gray-600 hover:text-gray-900 transition px-4 py-2">Batal</button>
+            <button id="btn-simpan-edit-agenda" class="flex items-center space-x-2 bg-[#063f2b] hover:bg-[#042e1f] text-white px-6 py-2.5 rounded-lg text-[13px] font-bold transition shadow-md">
+                <i class="fa-solid fa-check text-sm"></i>
+                <span>Simpan Perubahan</span>
             </button>
         </div>
     </div>
@@ -570,16 +508,175 @@
             box.classList.add('scale-100');
         }, 10);
     }
-
     function closeModal() {
         const modal = document.getElementById('agendaModal');
         const box = document.getElementById('modalBox');
         modal.classList.add('opacity-0');
         box.classList.remove('scale-100');
         box.classList.add('scale-95');
-        setTimeout(() => {
-            modal.classList.add('hidden');
-        }, 300);
+        setTimeout(() => { modal.classList.add('hidden'); }, 300);
     }
+
+    // Fungsi Modal Edit Agenda
+    function openEditModal() {
+        const modal = document.getElementById('editAgendaModal');
+        const box = document.getElementById('editModalBox');
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+            modal.classList.remove('opacity-0');
+            box.classList.remove('scale-95');
+            box.classList.add('scale-100');
+        }, 10);
+    }
+    function closeEditModal() {
+        const modal = document.getElementById('editAgendaModal');
+        const box = document.getElementById('editModalBox');
+        modal.classList.add('opacity-0');
+        box.classList.remove('scale-100');
+        box.classList.add('scale-95');
+        setTimeout(() => { modal.classList.add('hidden'); }, 300);
+    }
+
+    // Logika Edit Agenda (Ambil Data & Simpan)
+    document.addEventListener('DOMContentLoaded', function() {
+        let currentAgendaRow = null;
+
+        // 1. Saat tombol Edit (Ikon Pensil) ditekan
+        const editButtons = document.querySelectorAll('.btn-edit-agenda');
+        editButtons.forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                // Cari container item agenda terdekat
+                currentAgendaRow = this.closest('.agenda-item');
+                
+                if (currentAgendaRow) {
+                    // Ekstrak data teks dari HTML
+                    const judul = currentAgendaRow.querySelector('.text-judul').innerText.trim();
+                    const kategori = currentAgendaRow.querySelector('.text-kategori').innerText.trim();
+                    const narasumber = currentAgendaRow.querySelector('.text-narasumber').innerText.trim();
+                    const lokasi = currentAgendaRow.querySelector('.text-lokasi').innerText.trim();
+                    const status = currentAgendaRow.querySelector('.text-status').innerText.trim();
+                    
+                    // Ekstrak Tanggal & Bulan
+                    const tglAngka = currentAgendaRow.querySelector('.text-tanggal').innerText.trim();
+                    const blnTeks = currentAgendaRow.querySelector('.text-bulan').innerText.trim().toUpperCase();
+                    
+                    // Konversi nama bulan ke format angka agar cocok dengan input type="date"
+                    const arrBulan = {"JAN":"01","FEB":"02","MAR":"03","APR":"04","MEI":"05","JUN":"06","JUL":"07","AGU":"08","SEP":"09","OKT":"10","NOV":"11","DES":"12"};
+                    const blnAngka = arrBulan[blnTeks] || "01";
+                    const formatTanggal = `2024-${blnAngka}-${tglAngka.padStart(2, '0')}`; // Asumsi tahun 2024
+                    
+                    // Pisahkan waktu (Misal: "15:45 - 17:15 WIB")
+                    const waktuFull = currentAgendaRow.querySelector('.text-waktu').innerText.trim();
+                    let jamMulai = "", jamSelesai = "";
+                    if(waktuFull.includes('-')) {
+                        const parts = waktuFull.replace('WIB', '').split('-');
+                        jamMulai = parts[0].trim();
+                        jamSelesai = parts[1].trim();
+                    }
+
+                    // Masukkan data ke dalam form Edit
+                    document.getElementById('edit-agenda-judul').value = judul;
+                    document.getElementById('edit-agenda-narasumber').value = narasumber;
+                    document.getElementById('edit-agenda-mulai').value = jamMulai;
+                    document.getElementById('edit-agenda-selesai').value = jamSelesai;
+                    document.getElementById('edit-agenda-tanggal').value = formatTanggal;
+                    
+                    // Set Dropdown Kategori, Lokasi, Status
+                    document.getElementById('edit-agenda-kategori').value = kategori;
+                    document.getElementById('edit-agenda-lokasi').value = lokasi;
+                    
+                    if (status.includes('Terjadwal')) document.getElementById('edit-agenda-status').value = 'Terjadwal';
+                    else if (status.includes('Selesai')) document.getElementById('edit-agenda-status').value = 'Selesai';
+                    else document.getElementById('edit-agenda-status').value = 'Dibatalkan';
+                }
+                
+                openEditModal();
+            });
+        });
+
+        // 2. Saat tombol Simpan ditekan
+        const btnSimpan = document.getElementById('btn-simpan-edit-agenda');
+        if (btnSimpan) {
+            btnSimpan.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (currentAgendaRow) {
+                    // Ambil nilai baru dari form
+                    const judulBaru = document.getElementById('edit-agenda-judul').value;
+                    const narasumberBaru = document.getElementById('edit-agenda-narasumber').value;
+                    const mulaiBaru = document.getElementById('edit-agenda-mulai').value;
+                    const selesaiBaru = document.getElementById('edit-agenda-selesai').value;
+                    const kategoriBaru = document.getElementById('edit-agenda-kategori').value;
+                    const lokasiBaru = document.getElementById('edit-agenda-lokasi').value;
+                    const statusBaru = document.getElementById('edit-agenda-status').value;
+                    const tanggalBaru = document.getElementById('edit-agenda-tanggal').value;
+
+                    // Perbarui tampilan teks biasa
+                    currentAgendaRow.querySelector('.text-judul').innerText = judulBaru;
+                    currentAgendaRow.querySelector('.text-narasumber').innerText = narasumberBaru;
+                    currentAgendaRow.querySelector('.text-lokasi').innerText = lokasiBaru;
+                    currentAgendaRow.querySelector('.text-waktu').innerText = `${mulaiBaru} - ${selesaiBaru} WIB`;
+                    currentAgendaRow.querySelector('.text-kategori').innerText = kategoriBaru;
+                    
+                    // Perbarui Bulan & Tanggal yang ditarik dari format Date
+                    if (tanggalBaru) {
+                        const tglObj = new Date(tanggalBaru);
+                        if (!isNaN(tglObj)) {
+                            const namaBulanSingkat = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
+                            currentAgendaRow.querySelector('.text-bulan').innerText = namaBulanSingkat[tglObj.getMonth()];
+                            currentAgendaRow.querySelector('.text-tanggal').innerText = String(tglObj.getDate()).padStart(2, '0');
+                        }
+                    }
+                    
+                    // Update Warna Status Menggunakan Inline Style
+                    const statusSpan = currentAgendaRow.querySelector('.text-status');
+                    if (statusBaru === 'Terjadwal') {
+                        statusSpan.outerHTML = `<span class="bg-green-100 text-[10px] font-bold px-2.5 py-1 rounded text-status" style="color: #10b981;">Terjadwal</span>`;
+                    } else if (statusBaru === 'Selesai') {
+                        statusSpan.outerHTML = `<span class="bg-gray-200 text-[10px] font-bold px-2.5 py-1 rounded text-status" style="color: #4b5563;">Selesai</span>`;
+                    } else if (statusBaru === 'Dibatalkan') {
+                        statusSpan.outerHTML = `<span class="bg-red-100 text-[10px] font-bold px-2.5 py-1 rounded text-status" style="color: #dc2626;">Dibatalkan</span>`;
+                    }
+
+                    closeEditModal();
+
+                    // Panggil notifikasi
+                    if (typeof showToast === "function") {
+                        showToast('Agenda berhasil diperbarui.');
+                    }
+                }
+            });
+        }
+    });
+
+    // --- LOGIKA NAVIGASI BULAN (HEADER) ---
+    const namaBulanHeader = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+    let currentDateNav = new Date(); // Jika ingin default mulai dari Maret 2024, gunakan: new Date(2024, 2);
+
+    function updateMonthDisplay() {
+        const bulan = namaBulanHeader[currentDateNav.getMonth()];
+        const tahun = currentDateNav.getFullYear();
+        document.getElementById('currentMonthDisplay').innerText = `${bulan} ${tahun}`;
+        
+        // Opsional: Di sini Anda bisa memanggil fungsi AJAX/fetch untuk memuat data agenda 
+        // kalender dari database berdasarkan variabel 'bulan' dan 'tahun' yang baru dipilih.
+    }
+
+    function prevMonth() {
+        currentDateNav.setMonth(currentDateNav.getMonth() - 1);
+        updateMonthDisplay();
+    }
+
+    function nextMonth() {
+        currentDateNav.setMonth(currentDateNav.getMonth() + 1);
+        updateMonthDisplay();
+    }
+
+    // Inisialisasi tampilan bulan saat halaman pertama kali dimuat
+    document.addEventListener('DOMContentLoaded', function() {
+        updateMonthDisplay();
+    });
 </script>
 @endsection

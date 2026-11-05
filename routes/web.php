@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PengaturanController;
 
 // Halaman utama sekarang langsung memanggil view login
 Route::get('/', function () {
